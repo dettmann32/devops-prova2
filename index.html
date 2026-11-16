@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DevOps · Resumo Prova 2 — CI/CD, Docker, Cloud e Terraform</title>
+  <meta name="description" content="Resumo para a Prova 2 de DevOps Tools: CI/CD, pipelines, GitHub Actions, GitLab CI, Docker no pipeline, Registry, rollback, Cloud, Terraform, Prometheus e Grafana.">
+  <meta name="theme-color" content="#060a13" id="metaTheme">
+  <meta property="og:title" content="DevOps · Resumo Prova 2">
+  <meta property="og:description" content="CI/CD, Docker, Cloud, Terraform e Observabilidade em uma página — com quiz de 18 questões.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preload" href="assets/img/datacenter.jpg" as="image">
+  <link rel="stylesheet" href="style.css">
+  <script>
+    try {
+      const t = localStorage.getItem("devops2:theme");
+      if (t === "light" || t === "dark") document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+</head>
+<body>
+
+<!-- ================= topbar ================= -->
+<div class="topbar">
+  <a class="topbar__brand" href="#top" aria-label="Voltar ao início">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="16" rx="3"></rect>
+      <path d="m7 9 3 3-3 3"></path>
+      <path d="M13 15h4"></path>
+    </svg>
+    <span>DevOps · Prova 2<small>Aulas 16 → 33</small></span>
+  </a>
+  <span class="topbar__spacer"></span>
+  <a class="topbar__link" href="#quiz">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9.1 9a3 3 0 1 1 5 2.2c-.9.7-1.6 1.3-1.6 2.8"></path>
+      <circle cx="12" cy="17.5" r=".8" fill="currentColor" stroke="none"></circle>
+      <circle cx="12" cy="12" r="9"></circle>
+    </svg>
+    <span>Quiz</span>
+  </a>
+  <a class="topbar__link" href="https://github.com/dettmann32/devops-prova2" target="_blank" rel="noopener">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 .7a11.3 11.3 0 0 0-3.6 22c.6.1.8-.2.8-.5v-2c-3.1.7-3.8-1.3-3.8-1.3-.5-1.3-1.3-1.7-1.3-1.7-1-.7.1-.7.1-.7 1.1.1 1.7 1.2 1.7 1.2 1 1.7 2.6 1.2 3.2.9.1-.7.4-1.2.7-1.5-2.5-.3-5.1-1.2-5.1-5.5 0-1.2.4-2.2 1.1-3-.1-.3-.5-1.4.1-2.9 0 0 1-.3 3.1 1.2a10.7 10.7 0 0 1 5.7 0c2.1-1.5 3.1-1.2 3.1-1.2.6 1.5.2 2.6.1 2.9.7.8 1.1 1.8 1.1 3 0 4.3-2.6 5.2-5.1 5.5.4.4.8 1.1.8 2.2v3.2c0 .3.2.6.8.5A11.3 11.3 0 0 0 12 .7Z"></path>
+    </svg>
+    <span>GitHub</span>
+  </a>
+  <button class="theme-btn" id="themeToggle" type="button" aria-label="Alternar tema">
+    <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5 8.5 8.5 0 1 0 20.5 14.2Z"></path>
+    </svg>
+    <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+    </svg>
+  </button>
+  <span class="readbar" id="readbar" aria-hidden="true"></span>
+</div>
+
+<!-- ================= hero ================= -->
+<header class="hero" id="top">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="hero__inner">
+    <span class="hero__badge"><span class="pulse"></span> Prova 2 · 24/11</span>
+    <h1>Do <span class="grad">git push</span> ao deploy<br>sem sustos.</h1>
+    <p class="hero__sub">
+      O essencial das <strong>Aulas 16 a 33</strong> em uma página: CI/CD, pipelines,
+      GitHub Actions &amp; GitLab CI, Docker no fluxo, Registry, rollback, Cloud,
+      Terraform e observabilidade. Direto ao ponto, com quiz no final.
+    </p>
+    <div class="hero__actions">
+      <a class="btn btn--primary" href="#overview">
+        Começar a estudar
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </a>
+      <a class="btn btn--ghost" href="#quiz">
+        Ir para o quiz
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 11 3 3 8-8"></path><path d="M20 12v6a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h9"></path></svg>
+      </a>
+    </div>
+    <ul class="hero__stats">
+      <li><b>9</b> tópicos</li>
+      <li><b>18</b> questões</li>
+      <li><b>9</b> aulas resumidas</li>
+      <li><b>~25 min</b> de revisão</li>
+    </ul>
+  </div>
+</header>
+
+<!-- ================= nav mobile ================= -->
+<nav class="mobile-nav" aria-label="Índice">
+  <a href="#overview">Visão geral</a>
+  <a href="#cicd">CI/CD</a>
+  <a href="#actions">Actions</a>
+  <a href="#docker-cicd">Docker</a>
+  <a href="#releases">Releases</a>
+  <a href="#cloud">Cloud</a>
+  <a href="#terraform">Terraform</a>
+  <a href="#observability">Observab.</a>
+  <a href="#cheat">Cola</a>
+  <a href="#quiz">Quiz</a>
+</nav>
+
+<!-- ================= layout ================= -->
+<div class="layout">
+
+  <!-- -------- sidebar -------- -->
+  <aside class="sidebar">
+    <p class="toc__title">Índice do resumo</p>
+    <nav aria-label="Seções">
+      <ul class="toc">
+        <li><a href="#overview"><span class="num">00</span> Visão geral</a></li>
+        <li><a href="#cicd"><span class="num">16</span> Fundamentos de CI/CD</a></li>
+        <li><a href="#actions"><span class="num">17</span> GitHub Actions &amp; GitLab CI</a></li>
+        <li><a href="#docker-cicd"><span class="num">21</span> Docker no pipeline</a></li>
+        <li><a href="#releases"><span class="num">22–23</span> Registry, releases e rollback</a></li>
+        <li><a href="#cloud"><span class="num">25</span> Fundamentos de Cloud</a></li>
+        <li><a href="#terraform"><span class="num">27</span> IaC &amp; Terraform</a></li>
+        <li><a href="#observability"><span class="num">31–33</span> Observabilidade</a></li>
+        <li><a href="#cheat"><span class="num">★</span> Cola da prova</a></li>
+        <li><a href="#quiz"><span class="num">?</span> Quiz — 18 questões</a></li>
+      </ul>
+    </nav>
+    <div class="progress-card">
+      <div class="progress-card__row">
+        <span>Seu progresso</span>
+        <b id="progressCount">0/9</b>
+      </div>
+      <div class="progress-card__bar">
+        <div class="progress-card__fill" id="progressFill"></div>
+      </div>
+      <p id="progressMsg">Marque os tópicos conforme for revisando. Seu progresso fica salvo neste navegador.</p>
+    </div>
+  </aside>
+
+  <!-- -------- conteúdo -------- -->
+  <main class="content">
+
+    <!-- ================= 00 · VISÃO GERAL ================= -->
+    <section class="section" id="overview" data-study="overview">
+      <div class="section__head">
+        <div class="section__num">00</div>
+        <div class="section__titles">
+          <p class="eyebrow">Mapa do conteúdo</p>
+          <h2>Visão geral: o caminho da Prova 2</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="overview" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">
+        A matéria é uma história só: o código sai do desenvolvedor, passa por validações automáticas,
+        vira imagem, é publicado, chega na nuvem e continua sendo observado. Entender esse fluxo vale
+        mais do que decorar comandos.
+      </p>
+
+      <div class="flow" aria-label="Fluxo completo do código ao deploy">
+        <div class="flow__node"><b>Código</b><small>dev altera e commita</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--hl"><b>git push</b><small>dispara o evento</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>CI</b><small>build · testes · lint</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Docker build</b><small>gera a imagem</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Registry</b><small>imagem versionada</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>Deploy</b><small>VM · container · cloud</small></div>
+      </div>
+
+      <h3>O que a prova cobra</h3>
+      <div class="grid grid--3">
+        <div class="card card--accent">
+          <span class="tag-top">Aula 16</span>
+          <h4>CI/CD</h4>
+          <p class="small">CI, Continuous Delivery, Continuous Deployment, pipeline, feedback e automação.</p>
+        </div>
+        <div class="card card--accent">
+          <span class="tag-top">Aula 17</span>
+          <h4>GitHub Actions / GitLab CI</h4>
+          <p class="small">Workflow, evento, job, stage, runner e YAML — os mesmos conceitos com nomes diferentes.</p>
+        </div>
+        <div class="card card--accent">
+          <span class="tag-top">Aula 21</span>
+          <h4>Docker no CI/CD</h4>
+          <p class="small">Push → test → build → docker build. Build não é run; a imagem é o artefato.</p>
+        </div>
+        <div class="card card--accent">
+          <span class="tag-top">Aulas 22–23</span>
+          <h4>Registry, releases e rollback</h4>
+          <p class="small">Tags, versionamento semântico, releases e estratégias de recuperação.</p>
+        </div>
+        <div class="card card--accent">
+          <span class="tag-top">Aula 25</span>
+          <h4>Cloud</h4>
+          <p class="small">IaaS, PaaS, SaaS, regiões, AZs, computação, redes e disponibilidade.</p>
+        </div>
+        <div class="card card--accent">
+          <span class="tag-top">Aula 27</span>
+          <h4>Terraform</h4>
+          <p class="small">IaC declarativo, providers, resources, variables, outputs, state e ciclo init → destroy.</p>
+        </div>
+      </div>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Na prova</span> Segundo o cronograma, a Prova 2 cobra <b>CI/CD, pipeline, GitHub Actions/GitLab CI, Docker em pipeline, Registry, conceitos de Cloud e Terraform</b>. As Aulas 31–33 (observabilidade) vêm depois da prova — estão aqui como bônus, mas ajudam a fechar o raciocínio do fluxo completo.</p>
+      </div>
+
+      <h3>Como usar esta página</h3>
+      <div class="steps">
+        <div class="step">
+          <span class="step__n">1</span>
+          <div><b>Leia cada seção</b><p>São curtas e seguem a ordem das aulas. Os quadros roxos destacam o que mais cai.</p></div>
+        </div>
+        <div class="step">
+          <span class="step__n">2</span>
+          <div><b>Marque “estudado”</b><p>O progresso fica salvo no navegador. Ao final, a barra lateral mostra o que falta.</p></div>
+        </div>
+        <div class="step">
+          <span class="step__n">3</span>
+          <div><b>Faça o quiz</b><p>São 18 questões com explicação. Errou? Volte direto à seção correspondente.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= 16 · CI/CD ================= -->
+    <section class="section" id="cicd" data-study="cicd">
+      <div class="section__head">
+        <div class="section__num">16</div>
+        <div class="section__titles">
+          <p class="eyebrow">Aula 16</p>
+          <h2>Fundamentos de CI/CD</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="cicd" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">
+        CI/CD é sobre <b>automatizar o caminho entre o commit e o usuário</b>, reduzindo trabalho manual
+        e recebendo feedback o mais cedo possível.
+      </p>
+
+      <h3>O problema: entregar software manualmente</h3>
+      <div class="flow">
+        <div class="flow__node"><b>Código</b><small>cada dev na sua máquina</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Juntar</b><small>merge manual</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Testar</b><small>“na minha máquina funciona”</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Gerar versão</b><small>passos repetidos</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Deploy</b><small>erros descobertos no fim</small></div>
+      </div>
+      <div class="callout callout--warn">
+        <p><span class="label">Risco</span> Quanto mais etapas manuais, maior a chance de erro. Problemas descobertos só no final são mais caros de corrigir — e a equipe demora a receber feedback.</p>
+      </div>
+
+      <h3>Os três conceitos que a prova diferencia</h3>
+      <div class="grid grid--3">
+        <div class="card card--accent">
+          <span class="tag-top">CI</span>
+          <h4>Integração Contínua</h4>
+          <p class="small">Devs integram alterações ao código compartilhado com frequência. A cada mudança, uma automação roda <b>build, testes e verificações</b>. Objetivo: achar problemas cedo.</p>
+        </div>
+        <div class="card card--amber">
+          <span class="tag-top" style="color:var(--amber);border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.08)">CD · Delivery</span>
+          <h4>Entrega Contínua</h4>
+          <p class="small">A aplicação passa por um processo automatizado e fica <b>sempre pronta para ser implantada</b>. A ida para produção pode depender de uma aprovação.</p>
+        </div>
+        <div class="card card--green">
+          <span class="tag-top" style="color:var(--green);border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.08)">CD · Deployment</span>
+          <h4>Implantação Contínua</h4>
+          <p class="small">Passou nos critérios automatizados, <b>vai para produção automaticamente</b>. Não há aprovação manual entre pipeline e produção.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Pergunta</th>
+              <th>CI</th>
+              <th>Delivery</th>
+              <th>Deployment</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>O que automatiza?</td>
+              <td>Integração + validação (build/testes)</td>
+              <td>Todo o caminho até o pacote pronto</td>
+              <td>Até a publicação em produção</td>
+            </tr>
+            <tr>
+              <td>Vai sozinho para produção?</td>
+              <td><span class="no">Não</span></td>
+              <td><span class="no">Não</span> — pode exigir aprovação</td>
+              <td><span class="yes">Sim</span></td>
+            </tr>
+            <tr>
+              <td>Foco principal</td>
+              <td>Detectar problemas cedo</td>
+              <td>Manter versão entregável a qualquer momento</td>
+              <td>Reduzir intervenção manual</td>
+            </tr>
+            <tr>
+              <td>Confiança necessária</td>
+              <td>Média</td>
+              <td>Alta</td>
+              <td>Muito alta (testes + controles)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Pipeline: a espinha dorsal</h3>
+      <p>Pipeline é uma <b>sequência automatizada de etapas</b> que transforma código em uma versão validada e, eventualmente, implantada. Pode variar conforme tecnologia e projeto.</p>
+      <div class="flow">
+        <div class="flow__node"><b>Checkout</b><small>baixa o código</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Dependências</b><small>npm ci, pip…</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Build</b><small>compila/prepara</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Testes</b><small>valida o código</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Análise</b><small>lint/qualidade</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Empacotar</b><small>artefato/imagem</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>Deploy</b><small>publica</small></div>
+      </div>
+      <div class="callout">
+        <p><span class="label">Regra de ouro</span> Cada etapa pode falhar — e o pipeline deve <b>parar</b> na falha. É isso que evita levar um código quebrado até o deploy.</p>
+      </div>
+
+      <h3>Feedback: saber rápido vale mais que saber bonito</h3>
+      <div class="flow">
+        <div class="flow__node"><b>Alteração</b><small>commit/push</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Pipeline</b><small>executa etapas</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--danger"><b>Falha</b><small>algo não passou</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Feedback</b><small>log + status</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>Correção</b><small>volta ao início</small></div>
+      </div>
+      <p>Feedback rápido reduz o tempo entre <b>introduzir</b> e <b>perceber</b> um problema. A pipeline não serve só para deploy: ela informa a qualidade da alteração.</p>
+
+      <h3>Automação (o que realmente significa)</h3>
+      <div class="callout callout--tip">
+        <p><span class="label">Definição</span> Automatizar não é “fazer sem pessoas”. É transformar tarefas <b>repetitivas, previsíveis e verificáveis</b> em processos executados por ferramentas: instalar dependências, rodar testes, gerar build, criar artefatos, publicar imagem e fazer deploy.</p>
+      </div>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Resumo de 1 linha</span> <b>CI</b> integra e valida · <b>Delivery</b> mantém pronto para entregar · <b>Deployment</b> implanta automaticamente.</p>
+      </div>
+    </section>
+
+    <!-- ================= 17 · ACTIONS ================= -->
+    <section class="section" id="actions" data-study="actions">
+      <div class="section__head">
+        <div class="section__num">17</div>
+        <div class="section__titles">
+          <p class="eyebrow">Aula 17</p>
+          <h2>GitHub Actions &amp; GitLab CI</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="actions" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">
+        Duas ferramentas, a mesma ideia: <b>código versionado + configuração YAML + evento + executor = automação</b>.
+        Os nomes mudam; a lógica de CI/CD é a mesma.
+      </p>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Regra mental</span> O <b>evento</b> inicia a automação · o <b>pipeline/workflow</b> organiza o trabalho · o <b>runner</b> executa.</p>
+      </div>
+
+      <h3>Conceitos essenciais</h3>
+      <div class="grid grid--3">
+        <div class="card">
+          <h4>Workflow / Pipeline</h4>
+          <p class="small">Conjunto de instruções que define <b>quando</b> e <b>como</b> a automação roda. No GitHub: um arquivo em <code>.github/workflows/</code>. No GitLab: o <code>.gitlab-ci.yml</code>.</p>
+        </div>
+        <div class="card">
+          <h4>Event / Evento</h4>
+          <p class="small">Situação que dispara o workflow: <code>push</code>, <code>pull_request</code>, <code>workflow_dispatch</code> (manual) ou agendamento.</p>
+        </div>
+        <div class="card">
+          <h4>Job</h4>
+          <p class="small">Unidade de trabalho: reúne comandos de uma etapa lógica (ex.: instalar dependências e rodar testes). Pode depender de outro job.</p>
+        </div>
+        <div class="card">
+          <h4>Stage / Estágio</h4>
+          <p class="small">Fase do pipeline (<code>test</code>, <code>build</code>, <code>deploy</code>). No GitLab é explícito; no GitHub a ordem vem de jobs e dependências.</p>
+        </div>
+        <div class="card">
+          <h4>Step</h4>
+          <p class="small">Passo dentro de um job: um <code>run</code> (comando) ou um <code>uses</code> (ação reutilizável).</p>
+        </div>
+        <div class="card">
+          <h4>Runner</h4>
+          <p class="small">Ambiente que executa os jobs. GitHub-hosted (<code>ubuntu-latest</code>), GitLab Runner ou <i>self-hosted</i> para infra interna.</p>
+        </div>
+      </div>
+
+      <h3>YAML sem drama</h3>
+      <ul class="clean">
+        <li><b>Indentação com espaços</b> define a hierarquia — nunca use TAB.</li>
+        <li>Chave e valor: <code>name: Primeiro Pipeline</code>.</li>
+        <li>Listas usam <code>-</code> para cada item.</li>
+        <li>Um YAML visualmente simples pode falhar por indentação ou chave errada. <b>Leia o log</b> para achar o step que quebrou.</li>
+      </ul>
+
+      <div class="grid grid--2">
+        <div>
+          <h4>GitHub Actions</h4>
+          <div class="code">
+            <div class="code__bar">
+              <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+              <span class="code__name">.github/workflows/ci.yml</span>
+              <button class="copy-btn" type="button">Copiar</button>
+            </div>
+            <pre><code><span class="cmt"># workflow disparado a cada push na main</span>
+name: Primeiro Pipeline
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Instalar dependências
+        run: npm ci
+      - name: Rodar testes
+        run: npm test</code></pre>
+          </div>
+        </div>
+        <div>
+          <h4>GitLab CI</h4>
+          <div class="code">
+            <div class="code__bar">
+              <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+              <span class="code__name">.gitlab-ci.yml</span>
+              <button class="copy-btn" type="button">Copiar</button>
+            </div>
+            <pre><code><span class="cmt"># stages explícitos, jobs associados a cada um</span>
+stages:
+  - test
+  - build
+
+test_app:
+  stage: test
+  image: node:22-alpine
+  script:
+    - npm ci
+    - npm test
+
+build_app:
+  stage: build
+  script:
+    - npm run build</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <h3>GitHub Actions × GitLab CI</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Conceito</th><th>GitHub Actions</th><th>GitLab CI/CD</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Configuração</td><td><code>.github/workflows/*.yml</code></td><td><code>.gitlab-ci.yml</code></td></tr>
+            <tr><td>Gatilho</td><td><code>on</code></td><td><code>rules</code> / <code>workflow</code></td></tr>
+            <tr><td>Unidade de trabalho</td><td><code>job</code></td><td><code>job</code></td></tr>
+            <tr><td>Fases</td><td>jobs / <code>needs</code></td><td><code>stages</code></td></tr>
+            <tr><td>Executor</td><td><code>runs-on</code> (runner)</td><td>GitLab Runner</td></tr>
+            <tr><td>Comandos</td><td><code>run</code></td><td><code>script</code></td></tr>
+            <tr><td>Ações reutilizáveis</td><td><code>uses</code></td><td>templates / includes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Boas práticas para começar</h3>
+      <ul class="clean">
+        <li><b>Comece pequeno:</b> checkout + validação simples já ensina mais que um deploy complexo.</li>
+        <li><b>Automatize o repetitivo:</b> instalação, lint, testes e build são os primeiros candidatos.</li>
+        <li><b>Versione o YAML:</b> o pipeline é parte do projeto e passa por code review.</li>
+        <li><b>Leia os logs:</b> descubra qual step falhou e qual comando gerou o erro.</li>
+        <li><b>Nada de segredos no YAML:</b> use os mecanismos de secrets/variables da plataforma.</li>
+      </ul>
+
+      <div class="callout callout--warn">
+        <p><span class="label">Pegadinha</span> Pipeline “verde” não significa que está tudo certo — significa que os checks configurados passaram. Aprenda a ler logs e a provocar falhas de propósito para testar o pipeline.</p>
+      </div>
+    </section>
+
+    <!-- ================= 21 · DOCKER NO PIPELINE ================= -->
+    <section class="section" id="docker-cicd" data-study="docker-cicd">
+      <div class="section__head">
+        <div class="section__num">21</div>
+        <div class="section__titles">
+          <p class="eyebrow">Aula 21</p>
+          <h2>Docker dentro do CI/CD</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="docker-cicd" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">
+        O Docker entra depois da validação: ele <b>empacota</b> a aplicação já testada em uma imagem padronizada.
+        Se o teste falhar, o pipeline deve parar <b>antes</b> de construir ou publicar a imagem.
+      </p>
+
+      <div class="flow">
+        <div class="flow__node"><b>1 · Push</b><small>código no repositório</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>2 · Test</b><small>testes validam</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>3 · Build</b><small>compila/prepara</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--hl"><b>4 · Docker build</b><small>gera a imagem</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>5 · Registry</b><small>imagem versionada</small></div>
+      </div>
+
+      <h3>Por que construir uma imagem?</h3>
+      <div class="grid grid--2">
+        <div class="card card--red">
+          <h4>Sem imagem padronizada</h4>
+          <ul class="small" style="margin-bottom:0">
+            <li>Ambientes divergem entre máquinas.</li>
+            <li>Deploy depende de configurar peças manualmente.</li>
+            <li>“Na minha máquina funciona”.</li>
+          </ul>
+        </div>
+        <div class="card card--green">
+          <h4>Com Docker</h4>
+          <ul class="small" style="margin-bottom:0">
+            <li>Aplicação + dependências ficam empacotadas.</li>
+            <li>A mesma imagem é promovida entre ambientes.</li>
+            <li>Execução reproduzível e previsível.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout">
+        <p><span class="label">Decore</span> A <b>imagem</b> é o artefato; o <b>container</b> é uma instância em execução dessa imagem.</p>
+      </div>
+
+      <h3>Dockerfile: a receita da imagem</h3>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+          <span class="code__name">Dockerfile · aplicação Node.js</span>
+          <button class="copy-btn" type="button">Copiar</button>
+        </div>
+        <pre><code>FROM node:22-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+EXPOSE 3000
+CMD ["npm", "start"]</code></pre>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Instrução</th><th>O que faz</th></tr></thead>
+          <tbody>
+            <tr><td><code>FROM</code></td><td>Define a imagem-base (aqui, Node 22 sobre Alpine).</td></tr>
+            <tr><td><code>WORKDIR</code></td><td>Define o diretório de trabalho dentro da imagem.</td></tr>
+            <tr><td><code>COPY</code></td><td>Copia arquivos do contexto de build para a imagem.</td></tr>
+            <tr><td><code>RUN</code></td><td>Executa comandos no momento do <b>build</b> (dependências, compilação).</td></tr>
+            <tr><td><code>EXPOSE</code></td><td>Documenta a porta que a aplicação usa.</td></tr>
+            <tr><td><code>CMD</code></td><td>Comando executado quando o <b>container inicia</b>.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Build não é run</h3>
+      <div class="grid grid--2">
+        <div class="card">
+          <h4><code>docker build</code></h4>
+          <p class="small">Cria uma <b>imagem</b> a partir do Dockerfile e do contexto do projeto.</p>
+        </div>
+        <div class="card">
+          <h4><code>docker run</code></h4>
+          <p class="small">Cria e inicia um <b>container</b> usando uma imagem existente.</p>
+        </div>
+      </div>
+      <div class="callout callout--tip">
+        <p><span class="label">Fluxo</span> A <b>CI</b> pode construir a imagem; o <b>CD</b> publica no Registry e implanta no servidor.</p>
+      </div>
+
+      <h3>Boas práticas no pipeline</h3>
+      <ul class="clean">
+        <li><b>Falhe rápido:</b> teste quebrou? para o pipeline antes do build da imagem.</li>
+        <li><b>Tag rastreável:</b> identifique a imagem com SHA do commit ou versão, não só <code>latest</code>.</li>
+        <li><b>Sem segredos na imagem:</b> tokens e senhas não entram no Dockerfile nem nas camadas.</li>
+        <li><b>Separe responsabilidades:</b> testes validam o código, build prepara o artefato, Docker empacota.</li>
+      </ul>
+    </section>
+
+    <!-- ================= 22–23 · RELEASES ================= -->
+    <section class="section" id="releases" data-study="releases">
+      <div class="section__head">
+        <div class="section__num">22–23</div>
+        <div class="section__titles">
+          <p class="eyebrow">Aulas 22 e 23</p>
+          <h2>Registry, releases e rollback</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="releases" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">
+        Versionar é o que torna o rollback possível. Se você não sabe <b>qual</b> versão está em produção,
+        não sabe para onde voltar.
+      </p>
+
+      <div class="callout callout--warn">
+        <p><span class="label">Cenário clássico</span> 10:00 deploy v1.0 → 11:00 v1.1 → 12:00 v1.2 → <b>12:05 o sistema apresenta erro</b>. Para qual versão voltamos? Sem versionamento, ninguém sabe o que está rodando.</p>
+      </div>
+
+      <h3>Sem versionamento × com versionamento</h3>
+      <div class="grid grid--2">
+        <div class="card card--red">
+          <h4>Sem versionamento</h4>
+          <ul class="small" style="margin-bottom:0">
+            <li>Não sabemos qual código está em produção.</li>
+            <li>Não sabemos qual imagem está rodando.</li>
+            <li>Perdemos a referência da última versão funcional.</li>
+          </ul>
+        </div>
+        <div class="card card--green">
+          <h4>Com versionamento</h4>
+          <ul class="small" style="margin-bottom:0">
+            <li>Cada versão (v1.0.0, v1.1.0…) é um estado conhecido.</li>
+            <li>Tag do Git + tag da imagem contam a mesma história.</li>
+            <li>O Registry guarda versões anteriores para rollback.</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Git tags, imagens e releases</h3>
+      <div class="grid grid--2">
+        <div>
+          <div class="code">
+            <div class="code__bar">
+              <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+              <span class="code__name">terminal</span>
+              <button class="copy-btn" type="button">Copiar</button>
+            </div>
+            <pre><code><span class="cmt"># marca um ponto específico do histórico</span>
+git tag v1.0.0
+git push origin v1.0.0</code></pre>
+          </div>
+        </div>
+        <div class="card">
+          <h4>Tag no Git = tag na imagem</h4>
+          <p class="small" style="margin-bottom:0">Git <code>v1.0.0</code> → imagem <code>minha-api:v1.0.0</code>. A mesma identificação conecta código e imagem, e permite promoção entre ambientes.</p>
+        </div>
+      </div>
+      <p><b>Release</b> é uma versão pronta para distribuição: pode conter número, descrição e alterações, e normalmente está associada a uma Git Tag. <b>Registry</b> é o repositório de imagens: é de lá que o deploy puxa a imagem e o rollback busca a versão anterior.</p>
+
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+          <span class="code__name">Registry · publicar e recuperar versões</span>
+          <button class="copy-btn" type="button">Copiar</button>
+        </div>
+        <pre><code><span class="cmt"># publica a versão nova</span>
+docker build -t minha-api:v1.2.0 .
+docker tag minha-api:v1.2.0 registry.exemplo.com/minha-api:v1.2.0
+docker push registry.exemplo.com/minha-api:v1.2.0
+
+<span class="cmt"># rollback: puxa a versão anterior que continua no Registry</span>
+docker pull registry.exemplo.com/minha-api:v1.1.0</code></pre>
+      </div>
+
+      <h3>Versionamento semântico (SemVer)</h3>
+      <p><b>MAJOR.MINOR.PATCH</b> — a regra que a prova costuma pedir.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Parte</th><th>Quando muda</th><th>Exemplo</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill pill--red">MAJOR</span></td><td>Mudança incompatível (quebra contrato)</td><td>2.5.0 → <b>3.0.0</b></td></tr>
+            <tr><td><span class="pill pill--amber">MINOR</span></td><td>Nova funcionalidade compatível</td><td>2.4.8 → <b>2.5.0</b></td></tr>
+            <tr><td><span class="pill pill--green">PATCH</span></td><td>Correção de bug compatível</td><td>1.2.3 → <b>1.2.4</b></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Rollback: voltar para o que funcionava</h3>
+      <div class="flow">
+        <div class="flow__node"><b>v1.0.0</b><small>estável</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>v1.1.0</b><small>estável</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--danger"><b>v1.2.0</b><small>erro em produção</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--hl"><b>Rollback</b><small>pull + recriar</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>v1.1.0</b><small>volta a funcionar</small></div>
+      </div>
+      <p><b>Rollback</b> = voltar a uma versão anterior conhecida e funcional. Com Docker: <code>docker pull</code> da imagem antiga, parar/remover a versão atual e subir o container anterior. O rollback também pode ser automatizado pelo pipeline.</p>
+
+      <h3>Três estratégias de entrega</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Estratégia</th><th>Como funciona</th><th>Quando faz sentido</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><b>Recreate</b></td>
+              <td>Stop → Remove → Pull → Run. Troca diretamente a versão.</td>
+              <td>Mais simples para começar; aceita uma pequena janela de indisponibilidade.</td>
+            </tr>
+            <tr>
+              <td><b>Blue/Green</b></td>
+              <td>Mantém duas versões: BLUE (atual) e GREEN (nova). Testa a GREEN e troca o tráfego; se der problema, volta para a BLUE.</td>
+              <td>Quando não pode ficar fora do ar e precisa de retorno rápido.</td>
+            </tr>
+            <tr>
+              <td><b>Canary</b></td>
+              <td>Libera para uma fração dos usuários (ex.: 10%) e aumenta gradualmente (10% → 50% → 100%). Se falhar, volta a 0%.</td>
+              <td>Rollout controlado, com exposição reduzida ao risco.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Pipeline com versões</h3>
+      <div class="flow">
+        <div class="flow__node"><b>Git push</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Test</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Docker build</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Tag</b><small>app:v1.3.0</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Docker push</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--hl"><b>Registry</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>Deploy</b></div>
+      </div>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Frase de prova</span> CI/CD não é só automatizar o deploy: é criar um processo confiável para <b>entregar, versionar, monitorar e voltar atrás</b> quando necessário.</p>
+      </div>
+    </section>
+
+    <!-- ================= 25 · CLOUD ================= -->
+    <section class="section" id="cloud" data-study="cloud">
+      <div class="section__head">
+        <div class="section__num">25</div>
+        <div class="section__titles">
+          <p class="eyebrow">Aula 25</p>
+          <h2>Fundamentos de Cloud</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="cloud" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">
+        Cloud é o <b>uso de recursos de computação pela internet, sob demanda</b>: servidores, armazenamento,
+        bancos, redes e serviços gerenciados. A infraestrutura física fica com o provedor, em diferentes níveis
+        de responsabilidade.
+      </p>
+
+      <h3>Por que Cloud mudou o DevOps?</h3>
+      <div class="grid grid--2">
+        <div class="card"><h4>Provisionamento rápido</h4><p class="small">Criar recursos em minutos, em vez de comprar e configurar servidores físicos.</p></div>
+        <div class="card"><h4>Infraestrutura como código</h4><p class="small">A infraestrutura pode ser descrita e automatizada (Terraform entra aqui).</p></div>
+        <div class="card"><h4>Ambientes reproduzíveis</h4><p class="small">Dev, homologação e produção podem ser recriados com a mesma definição.</p></div>
+        <div class="card"><h4>Escalabilidade e serviços gerenciados</h4><p class="small">Escalar de forma automatizada e delegar camadas operacionais ao provedor.</p></div>
+      </div>
+
+      <h3>IaaS, PaaS e SaaS</h3>
+      <div class="grid grid--3">
+        <div class="card card--accent">
+          <span class="tag-top">IaaS</span>
+          <h4>Infrastructure as a Service</h4>
+          <p class="small">Infraestrutura virtualizada: VMs, discos, redes, balanceadores. O cliente administra o <b>sistema operacional</b> e acima. Mais controle, mais responsabilidade.</p>
+          <p class="small muted">Ex.: criar uma VM Linux, instalar Docker e publicar a aplicação.</p>
+        </div>
+        <div class="card">
+          <span class="tag-top" style="color:var(--accent-2);border-color:rgba(129,140,248,.35);background:rgba(129,140,248,.08)">PaaS</span>
+          <h4>Platform as a Service</h4>
+          <p class="small">Plataforma pronta para executar aplicações. O foco fica no <b>código</b>; o provedor cuida da infraestrutura e do runtime. Mais produtividade, menos controle.</p>
+          <p class="small muted">Ex.: deploy sem administrar diretamente a VM.</p>
+        </div>
+        <div class="card">
+          <span class="tag-top" style="color:var(--green);border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.08)">SaaS</span>
+          <h4>Software as a Service</h4>
+          <p class="small">Aplicação pronta consumida como serviço. O usuário não administra servidor, SO nem runtime. A operação fica com o fornecedor.</p>
+          <p class="small muted">Ex.: e-mail, colaboração, CRM.</p>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Camada</th><th>IaaS</th><th>PaaS</th><th>SaaS</th></tr></thead>
+          <tbody>
+            <tr><td>Aplicação</td><td><span class="pill pill--blue">você</span></td><td><span class="pill pill--blue">você</span></td><td><span class="pill pill--green">provedor</span></td></tr>
+            <tr><td>Runtime</td><td><span class="pill pill--blue">você</span></td><td><span class="pill pill--green">provedor</span></td><td><span class="pill pill--green">provedor</span></td></tr>
+            <tr><td>Sistema operacional</td><td><span class="pill pill--blue">você</span></td><td><span class="pill pill--green">provedor</span></td><td><span class="pill pill--green">provedor</span></td></tr>
+            <tr><td>Virtualização</td><td><span class="pill pill--green">provedor</span></td><td><span class="pill pill--green">provedor</span></td><td><span class="pill pill--green">provedor</span></td></tr>
+            <tr><td>Hardware</td><td><span class="pill pill--green">provedor</span></td><td><span class="pill pill--green">provedor</span></td><td><span class="pill pill--green">provedor</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Região × Availability Zone</h3>
+      <div class="region">
+        <div class="region__label">Região · área geográfica (ex.: us-east-1)</div>
+        <div class="az-grid">
+          <div class="az">AZ 1<small>infra isolada</small></div>
+          <div class="az">AZ 2<small>infra isolada</small></div>
+          <div class="az">AZ 3<small>infra isolada</small></div>
+        </div>
+      </div>
+      <ul class="clean">
+        <li><b>Região:</b> área geográfica onde o provedor mantém infraestrutura. Afeta latência, custo, serviços disponíveis e requisitos legais.</li>
+        <li><b>Availability Zone:</b> unidade de infraestrutura <b>isolada dentro de uma região</b>, projetada para reduzir o impacto de falhas.</li>
+        <li>Distribuir componentes entre AZs aumenta a disponibilidade. Múltiplas regiões vão além, quando necessário.</li>
+      </ul>
+      <div class="callout callout--warn">
+        <p><span class="label">Pegadinha</span> Alta disponibilidade não acontece automaticamente: a arquitetura precisa <b>usar</b> as AZs corretamente. E “região” não é “um servidor”.</p>
+      </div>
+
+      <h3>Computação na Cloud</h3>
+      <div class="grid grid--3">
+        <div class="card"><h4>Máquina virtual</h4><p class="small">Maior controle sobre o ambiente. Você administra o SO.</p></div>
+        <div class="card"><h4>Containers</h4><p class="small">Empacotam aplicação e dependências de forma padronizada. A imagem pode ficar no Registry e ser executada pela Cloud.</p></div>
+        <div class="card"><h4>Serverless</h4><p class="small">Execução sob demanda, sem administrar servidores diretamente. Paga pelo uso.</p></div>
+      </div>
+
+      <h3>Redes na Cloud</h3>
+      <p>Conceitos importantes: <b>IP, sub-redes, roteamento, DNS, firewall e balanceamento</b>. Rede pública expõe recursos conforme regras; rede privada isola o que não deve ser acessado diretamente. Segurança de rede é parte da arquitetura — não configuração posterior.</p>
+      <div class="flow">
+        <div class="flow__node"><b>Usuário</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Internet</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>DNS</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Load Balancer</b></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--hl"><b>App / Containers</b><small>multi-AZ</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Banco privado</b><small>sem acesso público</small></div>
+      </div>
+
+      <h3>Cloud + DevOps</h3>
+      <ul class="clean">
+        <li><b>Cloud</b> fornece infraestrutura e serviços sob demanda.</li>
+        <li><b>DevOps</b> fornece práticas para entregar e operar com rapidez e confiança.</li>
+        <li><b>CI/CD</b> automatiza a entrega; <b>IaC</b> automatiza a infraestrutura.</li>
+        <li><b>Containers</b> padronizam a execução; <b>monitoramento</b> detecta e ajuda a resolver problemas.</li>
+      </ul>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Decisão de arquitetura</span> Escolher região, quantidade de AZs e onde fica o banco não é detalhe: impacta <b>disponibilidade, latência, custo e segurança</b>.</p>
+      </div>
+    </section>
+
+    <!-- ================= 27 · TERRAFORM ================= -->
+    <section class="section" id="terraform" data-study="terraform">
+      <div class="section__head">
+        <div class="section__num">27</div>
+        <div class="section__titles">
+          <p class="eyebrow">Aula 27</p>
+          <h2>Infraestrutura como Código &amp; Terraform</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="terraform" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">
+        <b>IaC</b> é gerenciar servidores e redes por arquivos de configuração versionáveis. Em vez de clicar
+        no console, você descreve o estado desejado — e a ferramenta calcula como chegar lá.
+      </p>
+
+      <div class="grid grid--3">
+        <div class="card"><h4>Repetibilidade</h4><p class="small">Ambientes de dev, staging e produção criados de forma idêntica.</p></div>
+        <div class="card"><h4>Rastreabilidade</h4><p class="small">Histórico de alterações auditável via Git, com revisão como código.</p></div>
+        <div class="card"><h4>Consistência</h4><p class="small">Menos configuração manual e menos divergência entre ambientes.</p></div>
+      </div>
+
+      <h3>Declarativo × imperativo</h3>
+      <div class="grid grid--2">
+        <div class="card card--green">
+          <span class="tag-top" style="color:var(--green);border-color:rgba(52,211,153,.35);background:rgba(52,211,153,.08)">Declarativo</span>
+          <h4>“O QUE deve ser criado”</h4>
+          <p class="small">Você define o <b>estado final desejado</b>; a ferramenta calcula os passos. Exemplos: <b>Terraform</b>, CloudFormation.</p>
+        </div>
+        <div class="card card--amber">
+          <span class="tag-top" style="color:var(--amber);border-color:rgba(251,191,36,.35);background:rgba(251,191,36,.08)">Imperativo</span>
+          <h4>“COMO deve ser criado”</h4>
+          <p class="small">Você especifica a <b>sequência exata de comandos</b>. Exemplos: scripts Shell, AWS CLI.</p>
+        </div>
+      </div>
+
+      <h3>Blocos fundamentais do Terraform</h3>
+      <div class="grid grid--4">
+        <div class="card"><h4>Providers</h4><p class="small">Plugins de integração com APIs: AWS, Azure, Docker…</p></div>
+        <div class="card"><h4>Resources</h4><p class="small">Componentes reais a criar: VMs, redes, discos, balanceadores.</p></div>
+        <div class="card"><h4>Variables</h4><p class="small">Parâmetros de entrada flexíveis, sem valores fixos no código.</p></div>
+        <div class="card"><h4>Outputs</h4><p class="small">Valores retornados após o provisionamento (ex.: IP público).</p></div>
+      </div>
+
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+          <span class="code__name">main.tf · exemplo comentado</span>
+          <button class="copy-btn" type="button">Copiar</button>
+        </div>
+        <pre><code>terraform {
+  required_providers {
+    aws = { source = "hashicorp/aws", version = "~&gt; 5.0" }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+variable "instance_type" {
+  default = "t3.micro"
+}
+
+resource "aws_instance" "app" {
+  ami           = "ami-12345678"
+  instance_type = var.instance_type
+  tags = { Name = "devops-app" }
+}
+
+output "ip_publico" {
+  value = aws_instance.app.public_ip
+}</code></pre>
+      </div>
+
+      <h3>Ciclo de vida: os 4 comandos</h3>
+      <div class="steps">
+        <div class="step"><span class="step__n">1</span><div><b><code>terraform init</code></b><p>Inicializa o diretório e baixa os plugins dos providers.</p></div></div>
+        <div class="step"><span class="step__n">2</span><div><b><code>terraform plan</code></b><p>Compara o código com o state e gera a prévia das alterações. <b>Não executa nada.</b></p></div></div>
+        <div class="step"><span class="step__n">3</span><div><b><code>terraform apply</code></b><p>Executa as mudanças e atualiza a infraestrutura real (e o state).</p></div></div>
+        <div class="step"><span class="step__n">4</span><div><b><code>terraform destroy</code></b><p>Remove todos os recursos gerenciados pelo projeto.</p></div></div>
+      </div>
+
+      <h3>Terraform State (.tfstate)</h3>
+      <div class="grid grid--2">
+        <div class="card card--accent">
+          <h4>Fonte única da verdade</h4>
+          <p class="small" style="margin-bottom:0">Mapeia o código HCL aos recursos reais provisionados na nuvem.</p>
+        </div>
+        <div class="card">
+          <h4>Detecção de drift</h4>
+          <p class="small" style="margin-bottom:0">Identifica alterações manuais feitas fora do código.</p>
+        </div>
+        <div class="card">
+          <h4>Performance</h4>
+          <p class="small" style="margin-bottom:0">Guarda metadados e evita consultas lentas às APIs.</p>
+        </div>
+        <div class="card">
+          <h4>Locking</h4>
+          <p class="small" style="margin-bottom:0">Previne execuções concorrentes simultâneas sobre o mesmo state.</p>
+        </div>
+      </div>
+      <div class="callout callout--warn">
+        <p><span class="label">Cuidado</span> O state pode conter dados sensíveis. O ideal é armazená-lo em um <b>backend remoto</b> (com locking), não no Git. Perder o state é perder a ligação com o que já foi criado.</p>
+      </div>
+
+      <h3>Terraform × Ansible</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Terraform</th><th>Ansible</th></tr></thead>
+          <tbody>
+            <tr><td><b>Foco</b></td><td>Provisionamento de infraestrutura</td><td>Gestão de configuração</td></tr>
+            <tr><td><b>O que faz</b></td><td>Cria VMs, redes, discos, balanceadores</td><td>Instala pacotes, ajusta arquivos e serviços</td></tr>
+            <tr><td><b>Nível</b></td><td>Componentes de nuvem</td><td>Configuração interna do servidor</td></tr>
+            <tr><td><b>Estado</b></td><td>Gerencia arquivo de state</td><td>Execução sem agente, via SSH</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Integração completa</h3>
+      <div class="flow">
+        <div class="flow__node flow__node--hl"><b>Terraform</b><small>código HCL</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Cloud</b><small>chamadas de API</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>VM</b><small>instância criada</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Docker</b><small>runtime ativo</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>Aplicação</b><small>tráfego real</small></div>
+      </div>
+
+      <figure class="figure figure--split">
+        <img src="assets/img/docker-stack.png" alt="Diagrama de aplicações em contêineres rodando sobre Docker, sistema operacional hospedeiro e infraestrutura" loading="lazy" width="556" height="360">
+        <figcaption>
+          <b>Camadas de execução</b> — Aplicações em contêineres → Docker → SO hospedeiro → infraestrutura.
+          <br><span class="tiny">Imagem do slide da Aula 27 (UVV).</span>
+        </figcaption>
+      </figure>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Separe os papéis</span> Terraform <b>provisiona</b> a infraestrutura (VM, rede, security group). Ansible/Docker <b>configuram e executam</b> o que roda dentro dela. Terraform não substitui Dockerfile nem Ansible.</p>
+      </div>
+    </section>
+
+    <!-- ================= 31–33 · OBSERVABILIDADE ================= -->
+    <section class="section" id="observability" data-study="observability">
+      <div class="section__head">
+        <div class="section__num">31–33</div>
+        <div class="section__titles">
+          <p class="eyebrow">Aulas 31, 32 e 33 · bônus</p>
+          <h2>Observabilidade, Prometheus e Grafana</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="observability" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <div class="callout callout--warn">
+        <p><span class="label">Atenção</span> Este conteúdo vem <b>depois</b> da Prova 2 no cronograma. Está incluído como bônus para fechar o fluxo DevOps — se a sua turma antecipou, cai aqui também.</p>
+      </div>
+
+      <p class="lead">
+        Monitorar responde <b>“o que está acontecendo?”</b>. Observar responde <b>“por que está acontecendo?”</b>.
+        A diferença está na capacidade de investigar o desconhecido.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th></th><th>Monitoramento</th><th>Observabilidade</th></tr></thead>
+          <tbody>
+            <tr><td><b>Pergunta</b></td><td>O que está acontecendo?</td><td>Por que está acontecendo?</td></tr>
+            <tr><td><b>Foco</b></td><td>Falhas conhecidas (known-unknowns)</td><td>Falhas imprevistas e complexas (unknown-unknowns)</td></tr>
+            <tr><td><b>Exemplo</b></td><td>Checar se a API responde 200 a cada 30s</td><td>Descobrir por que só alguns clientes têm 5s de latência</td></tr>
+            <tr><td><b>Ferramentas</b></td><td>Zabbix, Nagios, Prometheus, Datadog</td><td>OpenTelemetry, Grafana Tempo, Dynatrace, Honeycomb</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>Os três pilares</h3>
+      <div class="grid grid--3">
+        <div class="card card--accent">
+          <h4>Logs</h4>
+          <p class="small">Registro cronológico de eventos discretos. Melhor quando estruturado (JSON) com timestamp, nível, serviço e contexto.</p>
+        </div>
+        <div class="card card--green">
+          <h4>Métricas</h4>
+          <p class="small">Valores numéricos agregados ao longo do tempo. Tendências, uso de recursos e saúde global. Quatro sinais dourados: latência, tráfego, erros e saturação.</p>
+        </div>
+        <div class="card">
+          <h4>Tracing</h4>
+          <p class="small">Caminho completo de uma requisição entre serviços. <b>Trace ID</b>, <b>span</b> e propagação de contexto revelam o gargalo.</p>
+        </div>
+      </div>
+
+      <h3>Health checks</h3>
+      <p>Endpoints que expõem a saúde da aplicação para orquestradores e load balancers. <b>Liveness</b>: a aplicação está viva? <b>Readiness</b>: está pronta para receber tráfego?</p>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+          <span class="code__name">GET /health · 200 OK ou 503 Service Unavailable</span>
+          <button class="copy-btn" type="button">Copiar</button>
+        </div>
+        <pre><code>{
+  "status": "UP",
+  "checks": {
+    "database": "UP",
+    "redis_cache": "UP",
+    "rabbitmq_queue": "DOWN"
+  }
+}</code></pre>
+      </div>
+
+      <h3>Alertas</h3>
+      <p>Notificação automática quando uma métrica ultrapassa um limite. Evite <b>alert fatigue</b>: notifique <b>ações necessárias</b>, não qualquer evento.</p>
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+          <span class="code__name">alerta Prometheus · taxa de erro 5xx</span>
+          <button class="copy-btn" type="button">Copiar</button>
+        </div>
+        <pre><code>alert: HighErrorRate
+expr: rate(http_requests_total{status=~"5.."}[5m]) &gt; 0.05
+for: 2m
+labels:
+  severity: critical
+annotations:
+  summary: "Taxa de erro 5xx acima de 5% nos últimos 5 minutos"</code></pre>
+      </div>
+
+      <h3>Prometheus: modelo pull</h3>
+      <p>O Prometheus é um sistema open-source de monitoramento focado em <b>séries temporais (TSDB)</b>. Ele <b>puxa</b> métricas periodicamente dos alvos, em vez de esperar que agentes enviem dados (push).</p>
+      <ul class="clean">
+        <li><b>Target:</b> endpoint HTTP que expõe métricas no formato Prometheus (ex.: <code>/metrics</code>).</li>
+        <li><b>Exporter:</b> adaptador que traduz dados de SO ou terceiros (Node Exporter, Postgres Exporter, Redis Exporter).</li>
+        <li><b>Scraping:</b> raspagem contínua; o intervalo é configurável (ex.: <code>scrape_interval: 15s</code>).</li>
+        <li><b>Vantagem do pull:</b> o servidor controla a frequência; scrape falhou = instância provavelmente caiu; evita sobrecarga de aplicações descontroladas.</li>
+      </ul>
+
+      <div class="grid grid--4">
+        <div class="card"><h4>Counter</h4><p class="small">Só cresce (ou zera no restart): total de requisições.</p></div>
+        <div class="card"><h4>Gauge</h4><p class="small">Sobe e desce: uso de RAM, CPU.</p></div>
+        <div class="card"><h4>Histogram</h4><p class="small">Agrupa observações em buckets: latência p95/p99.</p></div>
+        <div class="card"><h4>Summary</h4><p class="small">Calcula quantis diretamente na aplicação.</p></div>
+      </div>
+
+      <div class="code">
+        <div class="code__bar">
+          <span class="code__dot"></span><span class="code__dot"></span><span class="code__dot"></span>
+          <span class="code__name">PromQL · CPU e taxa de erros</span>
+          <button class="copy-btn" type="button">Copiar</button>
+        </div>
+        <pre><code><span class="cmt"># % de uso de CPU (via Node Exporter)</span>
+100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+
+<span class="cmt"># % de erros HTTP 5xx</span>
+(sum(rate(http_requests_total{status=~"5.."}[5m]))
+  / sum(rate(http_requests_total[5m]))) * 100</code></pre>
+      </div>
+
+      <figure class="figure figure--split">
+        <img src="assets/img/prometheus-yml.png" alt="Trecho de um arquivo prometheus.yml com scrape_interval e jobs para prometheus, node_exporter e schedules_backend_api" loading="lazy" width="574" height="617">
+        <figcaption>
+          <b>prometheus.yml</b> — define o intervalo de coleta e os jobs/targets: Prometheus, Node Exporter
+          e a API da aplicação em <code>/api/v1/metrics</code>.
+          <br><span class="tiny">Imagem do slide da Aula 32 (UVV).</span>
+        </figcaption>
+      </figure>
+
+      <h3>Grafana: de dado bruto a decisão</h3>
+      <div class="flow">
+        <div class="flow__node"><b>Fonte de dados</b><small>Prometheus, Loki, SQL</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Query</b><small>PromQL, LogQL, SQL</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Transformação</b><small>opcional</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node"><b>Painel</b><small>visualização</small></div>
+        <span class="flow__arrow">→</span>
+        <div class="flow__node flow__node--ok"><b>Dashboard</b><small>vários painéis</small></div>
+      </div>
+      <p><b>Grafana</b> consulta os dados na origem e transforma em dashboards atualizados automaticamente. Ele não é o banco principal das métricas.</p>
+      <div class="grid grid--2">
+        <div class="card">
+          <h4>Visualizações comuns</h4>
+          <ul class="small" style="margin-bottom:0">
+            <li><b>Time series:</b> evolução ao longo do tempo.</li>
+            <li><b>Stat:</b> valor único/instantâneo.</li>
+            <li><b>Gauge:</b> valor em relação a uma faixa/limite.</li>
+            <li><b>Bar chart / Table / Pie:</b> comparações, detalhes e proporções.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h4>Boas práticas</h4>
+          <ul class="small" style="margin-bottom:0">
+            <li>Defina as perguntas antes dos gráficos.</li>
+            <li>Títulos, unidades e períodos claros.</li>
+            <li>Evite painéis redundantes e excesso de cores.</li>
+            <li>Visão geral primeiro, detalhes depois.</li>
+            <li>Valide dados/consultas antes de decidir.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Resumo</span> <b>Logs</b> contam o que aconteceu, <b>métricas</b> mostram tendências, <b>tracing</b> revela o caminho e o gargalo. <b>Prometheus</b> coleta e alerta; <b>Grafana</b> visualiza.</p>
+      </div>
+    </section>
+
+    <!-- ================= COLA ================= -->
+    <section class="section" id="cheat" data-study="cheat">
+      <div class="section__head">
+        <div class="section__num">★</div>
+        <div class="section__titles">
+          <p class="eyebrow">Revisão de véspera</p>
+          <h2>Cola da prova</h2>
+        </div>
+        <button class="study-btn" type="button" data-study="cheat" aria-pressed="false">
+          <span class="tick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 12 5 5L20 6"></path></svg></span>
+          <span class="study-label">Marcar estudado</span>
+        </button>
+      </div>
+
+      <p class="lead">Se você só tiver 5 minutos antes da prova, leia esta seção.</p>
+
+      <div class="cheat">
+        <div class="cheat__item"><b>CI</b>Integrar alterações com frequência e validar automaticamente build e testes.</div>
+        <div class="cheat__item"><b>Continuous Delivery</b>Sempre pronto para produção; deploy pode aguardar aprovação.</div>
+        <div class="cheat__item"><b>Continuous Deployment</b>Deploy automático em produção após passar nos critérios.</div>
+        <div class="cheat__item"><b>Pipeline</b>Sequência automatizada de etapas; cada etapa pode falhar e parar o fluxo.</div>
+        <div class="cheat__item"><b>Workflow / Event / Job / Runner</b>O evento dispara, o workflow organiza, o job executa e o runner roda.</div>
+        <div class="cheat__item"><b>GitHub × GitLab</b><code>.github/workflows/*.yml</code> × <code>.gitlab-ci.yml</code>; <code>run</code> × <code>script</code>; <code>uses</code> × templates.</div>
+        <div class="cheat__item"><b>Docker no pipeline</b>Push → test → build → docker build → Registry → deploy.</div>
+        <div class="cheat__item"><b>build × run</b><code>docker build</code> cria imagem; <code>docker run</code> inicia container.</div>
+        <div class="cheat__item"><b>Imagem × container</b>Imagem é o artefato versionado; container é uma instância em execução.</div>
+        <div class="cheat__item"><b>SemVer</b>MAJOR quebra, MINOR adiciona, PATCH corrige (1.2.3 → 1.2.4).</div>
+        <div class="cheat__item"><b>Rollback</b>Voltar a uma versão conhecida e funcional usando a imagem antiga do Registry.</div>
+        <div class="cheat__item"><b>Blue/Green × Canary</b>Duas versões com troca de tráfego × liberação gradual para uma fração dos usuários.</div>
+        <div class="cheat__item"><b>IaaS / PaaS / SaaS</b>Você administra o SO / o provedor administra a plataforma / software pronto.</div>
+        <div class="cheat__item"><b>Região × AZ</b>Área geográfica × unidade isolada dentro da região.</div>
+        <div class="cheat__item"><b>Terraform</b>IaC declarativo: providers, resources, variables, outputs e state.</div>
+        <div class="cheat__item"><b>init / plan / apply / destroy</b>Prepara / prévia / executa / remove tudo.</div>
+        <div class="cheat__item"><b>State</b>Fonte única da verdade entre HCL e recursos reais; detecta drift e faz locking.</div>
+        <div class="cheat__item"><b>Terraform × Ansible</b>Provisionar infraestrutura × configurar o servidor.</div>
+        <div class="cheat__item"><b>Prometheus</b>Pull/scraping de <code>/metrics</code>; TSDB; 4 tipos: counter, gauge, histogram, summary.</div>
+        <div class="cheat__item"><b>Observabilidade</b>Logs + métricas + tracing; monitoramento responde “o quê”, observabilidade “por quê”.</div>
+      </div>
+
+      <h3>Pegadinhas que derrubam</h3>
+      <ul class="clean">
+        <li><b>Delivery ≠ Deployment:</b> os dois são “CD”, mas só o Deployment publica sozinho.</li>
+        <li><b>CI ≠ deploy:</b> CI valida a integração; deploy é outra etapa.</li>
+        <li><b>YAML com TAB:</b> quebra a hierarquia. Use espaços.</li>
+        <li><b>Segredo no YAML:</b> tokens e senhas vão para secrets/variables, nunca para o arquivo versionado.</li>
+        <li><b>Tag <code>latest</code> não é versão:</b> sem tag rastreável, o rollback fica às cegas.</li>
+        <li><b>Terraform não configura o servidor:</b> ele provisiona; Ansible/config management entra depois.</li>
+        <li><b>State não é código:</b> o <code>.tfstate</code> guarda o mapeamento dos recursos e pode conter dados sensíveis.</li>
+        <li><b>AZ não é região:</b> a AZ está dentro da região.</li>
+        <li><b>Counter × Gauge:</b> memória é gauge (sobe e desce); total de requisições é counter (acumula).</li>
+        <li><b>Observabilidade não é só dashboard:</b> é conseguir investigar o desconhecido com logs, métricas e traces.</li>
+      </ul>
+
+      <div class="callout callout--exam">
+        <p><span class="label">Fluxo mental final</span> Codificar → testar → construir → empacotar → versionar → publicar → deploy → monitorar → <b>rollback se precisar</b>.</p>
+      </div>
+    </section>
+
+    <!-- ================= QUIZ ================= -->
+    <section class="section" id="quiz" data-study="quiz">
+      <div class="section__head">
+        <div class="section__num">?</div>
+        <div class="section__titles">
+          <p class="eyebrow">Teste rápido</p>
+          <h2>Quiz — 18 questões</h2>
+        </div>
+      </div>
+
+      <p class="lead">Escolha uma alternativa por questão. A explicação aparece na hora — sem enrolação.</p>
+
+      <div class="quiz">
+        <div class="quiz__top">
+          <span class="quiz__meta">18 questões · feedback imediato</span>
+          <span class="quiz__score" id="quizScore"><b>0</b> acertos · 0/18 respondidas</span>
+        </div>
+        <div id="quizList"></div>
+        <div class="quiz__result" id="quizResult" aria-live="polite"></div>
+        <div class="quiz__footer">
+          <button class="btn btn--primary" id="quizReset" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"></path><path d="M3 3v5h5"></path></svg>
+            Reiniciar quiz
+          </button>
+          <span class="small muted">O resultado não é enviado para lugar nenhum.</span>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= rodapé ================= -->
+<footer class="footer">
+  <p><b>DevOps Tools · Resumo Prova 2</b> — CI/CD, Docker, Cloud, Terraform e Observabilidade.</p>
+  <p>Conteúdo baseado nos slides das Aulas 16 a 33 (Prof. Me Renato Sousa Botacim · UVV).</p>
+  <p><a href="https://github.com/dettmann32/devops-prova2" target="_blank" rel="noopener">Ver no GitHub</a> · <a href="#top">Voltar ao topo ↑</a></p>
+  <p class="tiny">Feito para estudar. Imagens de apoio extraídas dos próprios slides.</p>
+</footer>
+
+<button id="toTop" type="button" aria-label="Voltar ao topo">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6"></path></svg>
+</button>
+
+<script src="script.js"></script>
+</body>
+</html>
